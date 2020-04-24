@@ -28,10 +28,10 @@ let operators = {
   }
 function operator(componentes,operation) {
     if(componentes["a"]&&componentes["b"]){
-        return operators[operation](componentes[a],componentes[b]);
+        return operators[operation](componentes["a"],componentes["b"]);
     }
     else if (componentes["a"]) {
-        return operators[operation](a);
+        return operators[operation](componentes["a"]);
     } else if(isEmpty(componentes)){
         return operators[operation]();
     }
@@ -46,4 +46,4 @@ function isEmpty(obj) {
 
     return true;
 }
-console.log(operator({a:10,b:20},"add"));
+console.log(operator({a:10,b:20,},"add"));
