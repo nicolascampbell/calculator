@@ -14,7 +14,6 @@ let operators = {
         }else{
             return "You cant divide by 0";
         }
-    
     },
     change_sign:function (a) {
         return -a;
@@ -27,13 +26,24 @@ let operators = {
         return parseFloat(floating);
     }
   }
-function operator(a,b,operation) {
-    return operators[operation](a,b);
-}
-function operator(a,operation){
-    return operators[operation](a);
-}
-function operator(operation){
-    return operators[operation]();
-}
+function operator(componentes,operation) {
+    if(componentes["a"]&&componentes["b"]){
+        return operators[operation](a,b);
+    }
+    else if (componentes["a"]) {
+        return operators[operation](a);
+    } else if(isEmpty(componentes)){
+        return operators[operation]();
+    }
+    
 
+}
+function isEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return false;
+    }
+
+    return true;
+}
+export{operator}
