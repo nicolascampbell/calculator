@@ -28,7 +28,7 @@ let operators = {
   }
 function operator(componentes,operation) {
     if(componentes["a"]&&componentes["b"]){
-        return operators[operation](a,b);
+        return operators[operation](componentes[a],componentes[b]);
     }
     else if (componentes["a"]) {
         return operators[operation](a);
