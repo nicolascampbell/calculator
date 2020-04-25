@@ -46,3 +46,23 @@ function isEmpty(obj) {
     }
     return true;
 }
+//creating number buttons
+const button_table=document.getElementById("button_table");
+for (let i = 0; i < 10; i++) {
+    let temp= document.createElement("button");
+    temp.innerHTML=i;
+    temp.setAttribute("value",i);
+    temp.classList.add("number");
+    button_table.appendChild(temp);
+}
+//creando variables globales
+let a,b;
+let operadores=false;
+let igual=true;
+let resultado=0;
+//funciones utiles
+function alarga_numeros(n1,n2) {
+    n1=n1.toString+n2.toString;
+    return parseInt(n1);
+}
+//event listeners
