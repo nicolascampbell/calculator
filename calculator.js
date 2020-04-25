@@ -1,3 +1,4 @@
+  //object with all the operators
 let operators = {
     add:function(a,b) {
         return a+b;
@@ -26,6 +27,7 @@ let operators = {
         return parseFloat(floating);
     }
   }
+//Its like the manager of operators
 function operator(componentes,operation) {
     if(componentes["a"]&&componentes["b"]){
         return operators[operation](componentes["a"],componentes["b"]);
@@ -35,15 +37,12 @@ function operator(componentes,operation) {
     } else if(isEmpty(componentes)){
         return operators[operation]();
     }
-    
-
+//checking if an object is empty
 }
 function isEmpty(obj) {
     for(var prop in obj) {
         if(obj.hasOwnProperty(prop))
             return false;
     }
-
     return true;
 }
-console.log(operator({a:10,b:20,},"add"));
