@@ -7,8 +7,6 @@ let a=undefined;
 let b=undefined;
 let operacion=undefined;
 let resultado=undefined;
-let start=false;
-
 //object with all the operators
 let operators = {
     add:function(a,b) {
@@ -29,10 +27,6 @@ let operators = {
     },
     change_sign:function (a) {
         return -a;
-    },
-    coma:function (a,b) {
-        let floating=a.toString()+","+b.toString();
-        return parseFloat(floating);
     }
   }
 //Its like the manager of operators
@@ -68,36 +62,36 @@ for (let i = 0; i < 10; i++) {
 //funciones utiles
 function alarga_numeros(n1,n2) {
     n1=n1+n2;
-    return n1;
+    return Number(n1);
 }
-function update_display(update,that) {
-    document.getElementById(that).innerHTML=update;
+function update_display(update) {
+    document.getElementById("result").innerHTML=update;
 }
 function get_display(that){
     return document.getElementById(that).value;
 }
 //event listeners
 //numbers-->
-var allButtons = document.querySelectorAll('.number');
-for (var i = 0; i < allButtons.length; i++) {
-    allButtons[i].addEventListener('click', function() {
+let allNumbers = document.querySelectorAll('.number');
+for (let i = 0; i < allNumbers.length; i++) {
+    allNumbers[i].addEventListener('click', function() {
       if(bool_numbers) {
-        start=true;
         let zw=0;
         bool_operadores=true;
         bool_equal=true; 
-        if(resultado!=0&&resultado!=undefined){
+        if(resultado!=undefined){
             zw=alarga_numeros(resultado,this.value);
         }else{
             zw=this.value;
+            bool_coma=true;
         }
-        update_display(zw,"result");
+        update_display(zw);
         resultado=Number(zw);
       }
     });
   }
 //reset-->
-var reset=document.getElementById("reset");
+let reset=document.getElementById("reset");
 reset.addEventListener("click", function(event){
     a=undefined;
     b=undefined;
@@ -107,15 +101,15 @@ reset.addEventListener("click", function(event){
     bool_numbers=true;
     bool_equal=true;
     bool_coma=false;
-    update_display("0","result");
+    update_display("0");
 });
 //equals-->
-var equal=document.getElementById("equals");
+let equal=document.getElementById("equals");
 equal.addEventListener("click", function(){
     if (bool_equal&&a!=undefined&&b==undefined&&resultado!=undefined&&operacion!=undefined){
         b=resultado;
         a=operator({a:a,b:b},operacion);//getting a from previous calculation
-        update_display(a,"result"); 
+        update_display(a); 
         b=undefined;
         resultado=undefined;
         operacion=undefined;
@@ -127,39 +121,54 @@ equal.addEventListener("click", function(){
     }
 });
 //operators-->
-var allOperators = document.querySelectorAll(".operator");
-for (var i = 0; i < allOperators.length; i++) {
+let allOperators = document.querySelectorAll(".operator");
+for (let i = 0; i < allOperators.length; i++) {
     allOperators[i].addEventListener("click",function () {
         if(bool_operadores){
             if(a==undefined){//getting a from the user directly
                 a=resultado;
-                bool_operadores=false;
-                bool_coma=false;
-                bool_equal=false;
                 operacion=this.id;
                 resultado=undefined;
+                bool_equal=false;
             }else if(b==undefined&&operacion!=undefined){//in case we have a then operator and then b
                 b=resultado;
                 a=operator({a:a,b:b},operacion);
-                update_display(a,"result")
-                bool_operadores=false;
-                bool_coma=false;
+                update_display(a)
                 operacion=this.id;
                 b=undefined;
                 resultado=undefined;
+                bool_equal=false;
             }else if(resultado!=undefined){//in case a comes from a previous result, that means we got a then b and at the end the operator
                 b=resultado;
                 operacion=this.id;
                 a=operator({a:a,b:b},operacion);
-                update_display(a,"result")
-                bool_operadores=false;
-                bool_coma=false;
+                update_display(a)
                 b=undefined;
                 resultado=undefined;
-            }else{
+            }else if (resultado == undefined && operacion== undefined){
                 operacion=this.id;
             }
-        
+            bool_operadores=false;
+            bool_coma=false;
         }
   })
 }
+//coma-->
+let coma=document.getElementById("coma");
+coma.addEventListener("click", function(){
+    if(bool_coma){
+        resultado+=".";
+        update_display(resultado);
+        bool_operadores=false;
+        bool_numbers=true;
+        bool_coma=false;
+        bool_equal=false;
+    }
+});
+let sign=document.getElementById("change_sign");
+sign.addEventListener("click", function(){
+    if(resultado!=undefined){
+        resultado=operator({a:resultado},"change_sign");
+        update_display(resultado);
+    }
+});
