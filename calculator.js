@@ -183,12 +183,15 @@ sign.addEventListener("click", function(){
 });
 let del=document.getElementById("delete");
 del.addEventListener("click", function(){
-    if(resultado!=undefined){
-        if(resultado.toString().length>1){
-            resultado=Number(resultado.toString().slice(0,resultado.toString().length-1));
-        }else{
-            resultado=0;
-        }
-        update_display(resultado);
+    if(resultado==undefined&&a!=undefined){
+        resultado=a;
+        a=undefined;
     }
+    if(resultado.toString().length>1){
+        resultado=Number(resultado.toString().slice(0,resultado.toString().length-1));
+    }else{
+        resultado=0;
+    }
+    update_display(resultado);
+    
 });
