@@ -2,7 +2,7 @@
 let bool_operadores=false;
 var bool_numbers=true;
 let bool_equal=true;
-let bool_coma=false;
+let bool_coma=true;
 let a=undefined;
 let b=undefined;
 let operacion=undefined;
@@ -32,12 +32,12 @@ let operators = {
 //Its like the manager of operators
 function operator(componentes,operation) {
     if(componentes["a"]&&componentes["b"]){
-        return operators[operation](componentes["a"],componentes["b"]);
+        return operators[operation](componentes["a"],componentes["b"]).toFixed(3);
     }
     else if (componentes["a"]) {
-        return operators[operation](componentes["a"]);
+        return operators[operation](componentes["a"]).toFixed(3);
     } else if(isEmpty(componentes)){
-        return operators[operation]();
+        return operators[operation]().toFixed(3);
     }
 //checking if an object is empty
 }
@@ -100,7 +100,7 @@ reset.addEventListener("click", function(event){
     bool_operadores=false;
     bool_numbers=true;
     bool_equal=true;
-    bool_coma=false;
+    bool_coma=true;
     update_display("0");
 });
 //equals-->
@@ -161,12 +161,14 @@ coma.addEventListener("click", function(){
             resultado=a;
             a=undefined;
         }
-        resultado+=".";
-        update_display(resultado);
-        bool_operadores=false;
-        bool_numbers=true;
-        bool_coma=false;
-        bool_equal=false;
+        if(resultado.toString().indexOf(".")<0){
+            resultado+=".";
+            update_display(resultado);
+            bool_operadores=false;
+            bool_numbers=true;
+            bool_coma=false;
+            bool_equal=false;
+        }
     }
 });
 let sign=document.getElementById("change_sign");
