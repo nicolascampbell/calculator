@@ -32,12 +32,12 @@ let operators = {
 //Its like the manager of operators
 function operator(componentes,operation) {
     if(componentes["a"]&&componentes["b"]){
-        return operators[operation](componentes["a"],componentes["b"]).toFixed(3);
+        return parseFloat(operators[operation](componentes["a"],componentes["b"]).toFixed(3));
     }
     else if (componentes["a"]) {
-        return operators[operation](componentes["a"]).toFixed(3);
+        return parseFloat(operators[operation](componentes["a"]).toFixed(3));
     } else if(isEmpty(componentes)){
-        return operators[operation]().toFixed(3);
+        return parseFloat(operators[operation]().toFixed(3));
     }
 //checking if an object is empty
 }
@@ -62,7 +62,7 @@ for (let i = 0; i < 10; i++) {
 //funciones utiles
 function alarga_numeros(n1,n2) {
     n1=n1+n2;
-    return Number(n1);
+    return parseFloat(n1);
 }
 function update_display(update) {
     document.getElementById("result").innerHTML=update;
@@ -79,14 +79,13 @@ for (let i = 0; i < allNumbers.length; i++) {
         let zw=0;
         bool_operadores=true;
         bool_equal=true; 
-        if(resultado!=undefined){
+        if(resultado!=undefined&&resultado!="0"){
             zw=alarga_numeros(resultado,this.value);
         }else{
             zw=this.value;
-            bool_coma=true;
         }
         update_display(zw);
-        resultado=Number(zw);
+          resultado = parseFloat(zw);
       }
     });
   }
@@ -107,8 +106,8 @@ reset.addEventListener("click", function(event){
 let equal=document.getElementById("equals");
 equal.addEventListener("click", function(){
     if (bool_equal&&a!=undefined&&b==undefined&&resultado!=undefined&&operacion!=undefined){
-        b=resultado;
-        a=operator({a:a,b:b},operacion);//getting a from previous calculation
+        b=parseFloat(resultado);
+        a=parseFloat(operator({a:parseFloat(a),b:b},operacion));//getting a from previous calculation
         update_display(a); 
         b=undefined;
         resultado=undefined;
@@ -126,12 +125,12 @@ for (let i = 0; i < allOperators.length; i++) {
     allOperators[i].addEventListener("click",function () {
         if(bool_operadores){
             if(a==undefined){//getting a from the user directly
-                a=resultado;
+                a=parseFloat(resultado);
                 operacion=this.id;
                 resultado=undefined;
                 bool_equal=false;
             }else if(b==undefined&&operacion!=undefined){//in case we have a then operator and then b
-                b=resultado;
+                b=parseFloat(resultado);
                 a=operator({a:a,b:b},operacion);
                 update_display(a)
                 operacion=this.id;
@@ -139,7 +138,7 @@ for (let i = 0; i < allOperators.length; i++) {
                 resultado=undefined;
                 bool_equal=false;
             }else if(resultado!=undefined){//in case a comes from a previous result, that means we got a then b and at the end the operator
-                b=resultado;
+                b=parseFloat(resultado);
                 operacion=this.id;
                 a=operator({a:a,b:b},operacion);
                 update_display(a)
@@ -149,7 +148,6 @@ for (let i = 0; i < allOperators.length; i++) {
                 operacion=this.id;
             }
             bool_operadores=false;
-            bool_coma=false;
         }
   })
 }
@@ -160,6 +158,8 @@ coma.addEventListener("click", function(){
         if(resultado==undefined&&a!=undefined){
             resultado=a;
             a=undefined;
+        }else if(resultado==undefined&&a==undefined){
+            resultado=0;
         }
         if(resultado.toString().indexOf(".")<0){
             resultado+=".";
@@ -190,7 +190,7 @@ del.addEventListener("click", function(){
         a=undefined;
     }
     if(resultado.toString().length>1){
-        resultado=Number(resultado.toString().slice(0,resultado.toString().length-1));
+        resultado=parseFloat(resultado.toString().slice(0,resultado.toString().length-1));
     }else{
         resultado=0;
     }
